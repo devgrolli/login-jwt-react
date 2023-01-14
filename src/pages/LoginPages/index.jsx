@@ -1,37 +1,27 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import './styles.css'
-import {
-    MDBInput,
-    MDBCol,
-    MDBRow,
-    MDBCheckbox,
-    MDBBtn,
-    MDBIcon
-  }
-  from 'mdb-react-ui-kit';
+import { MDBInput, MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
+import AlertToast from "../../components/Alert/index";
 
 const LoginPage = () => {
-    const { authenticated, login } = useContext(AuthContext);
-
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // intercepta o evento de submit
-        console.log('submit', { email, password });
-
-        login(email, password); // integracao com meu contexto e a API
+        e.preventDefault();
+        login(email, password).catch((err) => {setError(err) })
     }
     return (
         <div id="login">
-            <div className='d-flex flex-row ps-5 pt-5'>
-                <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
-                <span className="h1 fw-bold mb-0">Logo</span>
+            <div>
+                <span className="h1 fw-bold mb-0">Login</span>
             </div>
 
             <form onSubmit={handleSubmit}>    
-            <MDBInput
+                <MDBInput
                     className='mb-4'
                     type="email" 
                     name="email" 
@@ -49,48 +39,15 @@ const LoginPage = () => {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <MDBBtn type='submit' block>
-                    Entrar
-                </MDBBtn>
-
+                <MDBBtn type='submit' block> Entrar </MDBBtn>
                 <div className='text-center'>
-                    <p>
-                    Não tem cadastro? <a href='/register'>Registre-ser</a>
-                    </p>
+                    <br /><p> Não tem cadastro? <a href='/register'>Registre-se</a></p>
                 </div>
-
             </form>
+
+            {error && <AlertToast msg= {error?.response.data.msg} />}
         </div>
     );
 };
 
 export default LoginPage;
-
-{/* 
-            <h1 className="title">Login do Sistema</h1>
-            
-            <form className="form" onSubmit={handleSubmit}>
-                <div className="field">
-                    <label htmlFor="email">E-mail</label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="password">Senha</label>
-                    <input 
-                        type="password"
-                        name="password"
-                        id="password"
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className="actions">
-                    <button type="submit">Entrar</button>
-                </div>
-            </form> */}

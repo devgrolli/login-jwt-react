@@ -1,7 +1,7 @@
 // contexto é como se fosse uma area reservada do sistema, é uma memoria central que vai deixar gravar certas informações
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { api, createSession } from "../services/api"
+import { api, createSession } from "../services/api";
 
 export const AuthContext = createContext();
 
@@ -10,7 +10,7 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() =>{
+    useEffect(() => {
         const recoveredUser = localStorage.getItem('user');
 
         if(recoveredUser){
@@ -26,7 +26,6 @@ export const AuthProvider = ({children}) => {
 
         localStorage.setItem('user', JSON.stringify(loggedUser));
         localStorage.setItem('token', token);
-
         // api.defaults.headers.Authorization = `Bearer ${token}`
 
         setUser(loggedUser);
@@ -34,7 +33,6 @@ export const AuthProvider = ({children}) => {
     };
 
     const logout = () => {
-        console.log('logout')
         localStorage.removeItem('info');
         localStorage.removeItem('token');
         api.defaults.headers.Authorization = null;
@@ -44,7 +42,7 @@ export const AuthProvider = ({children}) => {
 
     return(
         <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>
-            {children} 
+            {children}
         </AuthContext.Provider>
     )
 }
