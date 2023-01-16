@@ -1,38 +1,79 @@
-import React from 'react';
+import React, { useState, useContext } from "react";
+import AlertToast from "../../components/Alert/index";
+import { AuthContext } from "../../contexts/auth";
+import Divider from '@mui/joy/Divider';
 import './styles.css'
-import {
-    MDBInput,
-    MDBCol,
-    MDBRow,
-    MDBCheckbox,
-    MDBBtn,
-    MDBIcon
-  } from 'mdb-react-ui-kit';
+import { MDBInput, MDBCol, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 
 function RegisterPage() {
-  return (
+  const { signIn } = useContext(AuthContext);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(false);
 
-    <div id="login">
-        <form>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signIn(name, email, password, confirmPassword).catch((err) => { setError(err) })
+  }
+
+  return (
+      <div id="login">
+        {error && 
+          <>
+            <AlertToast msg= {error?.response.data.msg} />
+            <br />
+          </>
+        }
+        <div>
+          <span className="h1 fw-bold mb-0">Cadastro</span>
+        </div><br />
+
+        <form onSubmit={handleSubmit}>
             <MDBRow className='mb-4'>
+              <MDBCol>
+                <MDBInput
+                  id='name'
+                  label='Nome'
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </MDBCol>
             <MDBCol>
-                <MDBInput id='form3Example1' label='Nome' />
-            </MDBCol>
-            <MDBCol>
-                <MDBInput id='form3Example2' label='E-mail' />
+              <MDBInput
+                id='email'
+                label='E-mail'
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </MDBCol>
             </MDBRow>
-            <MDBInput className='mb-4' type='password' id='form3Example4' label='Senha' />
-            <MDBInput className='mb-4' type='password' id='form3Example4' label='Repetir senha' />
-
+            <MDBInput
+              className='mb-4'
+              type='password'
+              id='repetPassword'
+              label='Senha'
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <MDBInput
+              className='mb-4'
+              type='password'
+              id='password'
+              label='Repetir senha'
+              value={confirmPassword} 
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
             <MDBBtn type='submit' className='mb-4' block>
                 Registrar
             </MDBBtn>
+            <Divider />
 
-            <MDBBtn type='submit' className='mb-4' block>
-                voltar
-            </MDBBtn>
+            <div className='text-center'>
+              <a href='/login'>Voltar</a>
+            </div>
         </form>
     </div>
   );

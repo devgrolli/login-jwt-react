@@ -1,7 +1,7 @@
 // contexto é como se fosse uma area reservada do sistema, é uma memoria central que vai deixar gravar certas informações
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { api, createSession } from "../services/api";
+import { api, createSession, createUser } from "../services/api";
 
 export const AuthContext = createContext();
 
@@ -33,15 +33,20 @@ export const AuthProvider = ({children}) => {
     };
 
     const logout = () => {
-        localStorage.removeItem('info');
+        localStorage.removeItem('user');
         localStorage.removeItem('token');
         api.defaults.headers.Authorization = null;
         setUser(null);
         navigate('/login');
     };
 
+    const signIn = async (name, email, password, repetPassword) => {
+        await createUser(name, email, password, repetPassword);
+        login(email, password)
+    }
+
     return(
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>
+        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, signIn }}>
             {children}
         </AuthContext.Provider>
     )

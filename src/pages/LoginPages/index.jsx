@@ -16,9 +16,10 @@ const LoginPage = () => {
     }
     return (
         <div id="login">
+            {error && <><AlertToast msg= {error?.response.data.msg} /><br /></>}
             <div>
                 <span className="h1 fw-bold mb-0">Login</span>
-            </div>
+            </div><br />
 
             <form onSubmit={handleSubmit}>    
                 <MDBInput
@@ -29,7 +30,7 @@ const LoginPage = () => {
                     id="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
-                />
+                    />
                 <MDBInput
                     className='mb-4'
                     type="password"
@@ -38,14 +39,13 @@ const LoginPage = () => {
                     id="password"
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
-                />
+                    />
                 <MDBBtn type='submit' block> Entrar </MDBBtn>
                 <div className='text-center'>
                     <br /><p> Não tem cadastro? <a href='/register'>Registre-se</a></p>
                 </div>
             </form>
 
-            {error && <AlertToast msg= {error?.response.data.msg} />}
         </div>
     );
 };
