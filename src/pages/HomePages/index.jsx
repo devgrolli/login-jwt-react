@@ -7,25 +7,32 @@ import {
   MDBCarousel,
   MDBCarouselItem,
 } from 'mdb-react-ui-kit';
-
+import Divider from '@mui/joy/Divider';
 
 const HomePage = () => {
-    const { logout } = useContext(AuthContext);
     const [listUsers, setlistUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [count, setCount] = useState(0);
+    const [teste, setTeste] = useState(false);
     
     useEffect(() => {
         (async () => {
             const response = await getUsers();
-            console.log(response)
             setlistUsers(response.data);
             setLoading(false);
         })();
     }, [])
 
-    const handleLogout = () => {
-        logout();
-    };
+    useEffect(() => {
+        if(count == 5){
+            setTeste(true)
+        }
+        console.log('Quantas vezes?')
+    }, [count])
+
+    useEffect(() => {
+        console.log('teste')
+    }, [])
 
     if(loading){
         return <div className="loading"><img src={spinnerLoading} /></div>
@@ -35,6 +42,14 @@ const HomePage = () => {
         <>
             <ButtonAppBar />
             <h1>HomePage</h1>
+            <Divider orientation="horizontal" />
+
+            <button onClick={()=> setCount(count => count + 1)} > {count} </button>
+
+            {teste && 
+                <h2> TESTE</h2>
+            }
+        
             {/* <p>{String(authenticated)}</p> */}
             <ul>
                 {

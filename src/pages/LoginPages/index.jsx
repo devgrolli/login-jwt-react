@@ -9,17 +9,14 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         login(email, password).catch((err) => {setError(err) })
     }
     return (
         <div id="login">
-            {error && <><AlertToast msg= {error?.response.data.msg} /><br /></>}
-            <div>
-                <span className="h1 fw-bold mb-0">Login</span>
-            </div><br />
+            {error && <><AlertToast msg= {error?.response.data.msg} /></>}
+            <div id="label-login"><span className="h1 fw-bold mb-0">Login</span></div>
 
             <form onSubmit={handleSubmit}>    
                 <MDBInput
@@ -41,8 +38,8 @@ const LoginPage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     />
                 <MDBBtn type='submit' block> Entrar </MDBBtn>
-                <div className='text-center'>
-                    <br /><p> Não tem cadastro? <a href='/register'>Registre-se</a></p>
+                <div className='link-registre'>
+                    <p> Não tem cadastro? <a href='/register'>Registre-se</a></p>
                 </div>
             </form>
 

@@ -1,0 +1,17 @@
+#table-authors {
+    padding-top: 80px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-radius: 20px;
+}
+

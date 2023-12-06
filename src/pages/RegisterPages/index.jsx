@@ -26,9 +26,9 @@ function RegisterPage() {
             <br />
           </>
         }
-        <div>
+        <div id="label-cadastro">
           <span className="h1 fw-bold mb-0">Cadastro</span>
-        </div><br />
+        </div>
 
         <form onSubmit={handleSubmit}>
             <MDBRow className='mb-4'>
@@ -71,7 +71,7 @@ function RegisterPage() {
             </MDBBtn>
             <Divider />
 
-            <div className='text-center'>
+            <div id="link-voltar" className='text-center'>
               <a href='/login'>Voltar</a>
             </div>
         </form>
